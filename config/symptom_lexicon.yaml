@@ -1,0 +1,90 @@
+# Symptom lexicon used by the rule-based SymptomAgent.
+# canonical name -> list of surface forms (lower case). Matching is exact on
+# word boundaries first, then fuzzy (difflib ratio) for spelling variants.
+# red_flag: true marks symptoms that trigger the "seek prompt assessment"
+# notice. The notice does not claim any cause.
+# This list is hand-written for an educational prototype. It is not a clinical
+# terminology (it is not SNOMED CT, UMLS or MeSH) and has not been validated.
+version: "0.1.0"
+
+symptoms:
+  cough:
+    terms: [cough, coughing, coughs, hacking cough, dry cough, wet cough, productive cough]
+  sputum:
+    terms: [sputum, phlegm, mucus, coughing up mucus, productive cough]
+  hemoptysis:
+    red_flag: true
+    terms: [hemoptysis, haemoptysis, coughing up blood, blood in sputum, bloody sputum, blood in phlegm, spitting blood]
+  shortness_of_breath:
+    red_flag: true
+    terms: [shortness of breath, short of breath, breathlessness, breathless, dyspnea, dyspnoea, difficulty breathing, trouble breathing, cant breathe, can't breathe, hard to breathe, out of breath]
+  wheezing:
+    terms: [wheeze, wheezing, wheezy, whistling breath]
+  chest_pain:
+    red_flag: true
+    terms: [chest pain, chest tightness, tight chest, chest pressure, pain in chest, pain in my chest, chest discomfort]
+  pleuritic_pain:
+    terms: [pain when breathing, pain on breathing, pain when i breathe, sharp pain when breathing, pleuritic pain]
+  fever:
+    terms: [fever, feverish, high temperature, temperature, pyrexia, febrile]
+  chills:
+    terms: [chills, shivering, rigors, shivers]
+  night_sweats:
+    terms: [night sweats, sweating at night, drenching sweats]
+  sweating:
+    terms: [sweating, sweaty, diaphoresis]
+  fatigue:
+    terms: [fatigue, tired, tiredness, exhausted, exhaustion, lethargy, lethargic, weakness, weak, malaise]
+  weight_loss:
+    terms: [weight loss, losing weight, lost weight, unintentional weight loss]
+  loss_of_appetite:
+    terms: [loss of appetite, poor appetite, not hungry, anorexia]
+  sore_throat:
+    terms: [sore throat, throat pain, scratchy throat]
+  runny_nose:
+    terms: [runny nose, nasal congestion, blocked nose, stuffy nose, rhinorrhea, rhinorrhoea]
+  headache:
+    terms: [headache, head ache, head pain, migraine]
+  body_aches:
+    terms: [body aches, body ache, muscle aches, muscle pain, myalgia, joint pain, arthralgia]
+  palpitations:
+    terms: [palpitations, racing heart, heart racing, pounding heart, fluttering heart, irregular heartbeat]
+  orthopnea:
+    terms: [orthopnea, orthopnoea, breathless lying flat, cannot lie flat, short of breath lying down]
+  leg_swelling:
+    terms: [leg swelling, swollen legs, swollen ankles, ankle swelling, swollen feet, edema, oedema, pedal edema]
+  syncope:
+    red_flag: true
+    terms: [fainting, fainted, syncope, passed out, blackout, blacked out, loss of consciousness]
+  dizziness:
+    terms: [dizziness, dizzy, lightheaded, light-headed, vertigo]
+  cyanosis:
+    red_flag: true
+    terms: [cyanosis, blue lips, bluish lips, blue fingertips, turning blue]
+  confusion:
+    red_flag: true
+    terms: [confusion, confused, disoriented, disorientation]
+  nausea:
+    terms: [nausea, nauseous, feeling sick]
+  vomiting:
+    terms: [vomiting, vomit, throwing up, threw up]
+  diarrhea:
+    terms: [diarrhea, diarrhoea, loose stools]
+  hoarseness:
+    terms: [hoarseness, hoarse voice, hoarse]
+  loss_of_smell_or_taste:
+    terms: [loss of smell, loss of taste, anosmia, cant smell, can't smell]
+  rash:
+    terms: [rash, skin rash, hives]
+
+negation_pre: ["no", "not", denies, denied, deny, without, negative for, free of, never had, absence of, none, nor, no signs of, no sign of, "doesn't have", "does not have", "don't have", "do not have", "haven't had", "have not had", "isn't", "wasn't", "not having"]
+negation_post: [absent, resolved, gone, ruled out, denied]
+negation_terminators: [but, however, although, though, except, yet, apart from, aside from, which, who]
+uncertainty: [maybe, possibly, possible, might, may be, perhaps, not sure, unsure, i think, probably, questionable, kind of, sort of, seems, seem, suspect, suspected, unclear]
+
+context:
+  severity: [mild, moderate, severe, worsening, getting worse, worse, intense, extreme, slight, bad, terrible, improving, better]
+  onset: [sudden, suddenly, abrupt, gradual, gradually, started, began, came on]
+  pattern: [constant, intermittent, on and off, comes and goes, persistent, recurrent, occasional, occasionally, sometimes, daily, every day, at night, in the morning, all the time]
+  trigger: [on exertion, when walking, when climbing stairs, after exercise, when lying down, lying flat, at rest, when breathing, deep breath, after eating]
+  history: [history of, smoker, smoking, ex-smoker, former smoker, asthma, copd, diabetes, hypertension, tuberculosis, recent travel, recent surgery, pregnant]

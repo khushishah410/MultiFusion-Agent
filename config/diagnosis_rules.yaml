@@ -1,0 +1,105 @@
+# Rules for the suggested-diagnosis step (app/agents/diagnosis_agent.py).
+#
+# symptoms / confirm_tests: taken from the cited MedlinePlus (U.S. National Library of
+#   Medicine) topic page for each condition, checked on 2026-10-27.
+# image: TorchXRayVision labels whose presence on a chest X-ray is commonly associated with
+#   the condition. This link is the project author's mapping, not from MedlinePlus; review it.
+# context: phrases in the user's text (risk factors / triggers named on the cited page).
+# Weights are hand-set points, not probabilities. Symptoms that are reported add the weight,
+# hedged ("maybe") add half, denied subtract the full weight.
+version: "0.1.0"
+min_points_for_suggestion: 2.0
+
+conditions:
+  heart_failure:
+    name: Heart failure
+    source: {name: "MedlinePlus: Heart Failure", url: "https://medlineplus.gov/heartfailure.html"}
+    image: {Cardiomegaly: 2, Edema: 2, Effusion: 1, Enlarged Cardiomediastinum: 1}
+    symptoms: {shortness_of_breath: 1, leg_swelling: 2, orthopnea: 2, fatigue: 0.5, cough: 0.5,
+               nausea: 0.5, loss_of_appetite: 0.5}
+    context: {climbing stairs: 0.5, on exertion: 0.5, when walking: 0.5, lying flat: 0.5}
+    confirm_tests: [BNP / NT-proBNP blood test, heart tests ordered by a doctor, chest X-ray review]
+
+  pneumonia:
+    name: Pneumonia
+    source: {name: "MedlinePlus: Pneumonia", url: "https://medlineplus.gov/pneumonia.html"}
+    image: {Pneumonia: 2, Consolidation: 2, Lung Opacity: 1, Infiltration: 1}
+    symptoms: {fever: 1.5, chills: 1, cough: 1, sputum: 1, shortness_of_breath: 1, pleuritic_pain: 1.5,
+               chest_pain: 0.5, nausea: 0.5, vomiting: 0.5, diarrhea: 0.5, confusion: 0.5}
+    context: {}
+    confirm_tests: [Chest X-ray, complete blood count (CBC), blood culture, sputum test, pulse oximetry]
+
+  copd:
+    name: COPD (chronic obstructive pulmonary disease, incl. emphysema)
+    source: {name: "MedlinePlus: COPD", url: "https://medlineplus.gov/copd.html"}
+    image: {Emphysema: 2}
+    symptoms: {cough: 1, sputum: 1, wheezing: 1.5, shortness_of_breath: 1, chest_pain: 0.5, fatigue: 0.5,
+               weight_loss: 0.5, leg_swelling: 0.5}
+    context: {smoker: 1, ex-smoker: 1, former smoker: 1, smoking: 1, on exertion: 0.5, climbing stairs: 0.5}
+    confirm_tests: [Lung function tests (spirometry), chest X-ray or CT scan, arterial blood gas test, alpha-1 antitrypsin test]
+
+  tuberculosis:
+    name: Tuberculosis (active)
+    source: {name: "MedlinePlus: Tuberculosis", url: "https://medlineplus.gov/tuberculosis.html"}
+    image: {Infiltration: 1, Consolidation: 1, Lung Opacity: 1, Fibrosis: 0.5}
+    symptoms: {cough: 1, hemoptysis: 2, night_sweats: 2, weight_loss: 1.5, fever: 1, chills: 0.5,
+               loss_of_appetite: 0.5, fatigue: 0.5, chest_pain: 0.5, sputum: 0.5}
+    context: {tuberculosis: 1}
+    confirm_tests: [TB skin test or TB blood test, sputum acid-fast bacillus (AFB) tests, chest X-ray]
+
+  lung_cancer:
+    name: Lung mass / possible lung cancer
+    source: {name: "MedlinePlus: Lung Cancer", url: "https://medlineplus.gov/lungcancer.html"}
+    image: {Mass: 2.5, Nodule: 2, Lung Lesion: 2}
+    symptoms: {hemoptysis: 1.5, cough: 0.5, weight_loss: 1.5, loss_of_appetite: 0.5, hoarseness: 1,
+               wheezing: 0.5, shortness_of_breath: 0.5, chest_pain: 0.5, fatigue: 0.5}
+    context: {smoker: 1, ex-smoker: 1, former smoker: 1, smoking: 1}
+    confirm_tests: [Chest CT scan, blood and sputum tests, lung biopsy]
+
+  asthma:
+    name: Asthma
+    source: {name: "MedlinePlus: Asthma", url: "https://medlineplus.gov/asthma.html"}
+    image: {}
+    symptoms: {wheezing: 2, cough: 1, shortness_of_breath: 1, chest_pain: 0.5}
+    context: {asthma: 1, at night: 0.5, in the morning: 0.5}
+    confirm_tests: [Spirometry, peak expiratory flow test, FeNO test, allergy tests if relevant]
+
+  acute_bronchitis:
+    name: Acute bronchitis
+    source: {name: "MedlinePlus: Acute Bronchitis", url: "https://medlineplus.gov/acutebronchitis.html"}
+    image: {}
+    symptoms: {cough: 1.5, sputum: 1, wheezing: 0.5, shortness_of_breath: 0.5, fever: 0.5, chest_pain: 0.5}
+    context: {}
+    confirm_tests: [Doctor listens to breathing, chest X-ray if needed, sputum culture]
+
+  pulmonary_fibrosis:
+    name: Pulmonary fibrosis
+    source: {name: "MedlinePlus: Pulmonary Fibrosis", url: "https://medlineplus.gov/pulmonaryfibrosis.html"}
+    image: {Fibrosis: 2.5}
+    symptoms: {shortness_of_breath: 1, cough: 1, fatigue: 0.5, weight_loss: 0.5, body_aches: 0.5}
+    context: {}
+    confirm_tests: [Chest X-ray / CT, lung function tests (spirometry, diffusion), lung biopsy]
+
+  pleural_effusion:
+    name: Pleural effusion (fluid around the lung)
+    source: {name: "MedlinePlus: Pleural Disorders", url: "https://medlineplus.gov/pleuraldisorders.html"}
+    image: {Effusion: 2.5, Pleural_Thickening: 0.5}
+    symptoms: {}
+    context: {}
+    confirm_tests: [Chest X-ray or CT, thoracentesis with pleural fluid analysis]
+
+  pneumothorax:
+    name: Pneumothorax (collapsed lung)
+    source: {name: "MedlinePlus: Collapsed Lung", url: "https://medlineplus.gov/collapsedlung.html"}
+    image: {Pneumothorax: 3}
+    symptoms: {shortness_of_breath: 1, palpitations: 0.5}
+    context: {}
+    confirm_tests: [Chest X-ray (urgent if breathless)]
+
+  atelectasis:
+    name: Atelectasis (partial lung collapse)
+    source: {name: "MedlinePlus: Collapsed Lung", url: "https://medlineplus.gov/collapsedlung.html"}
+    image: {Atelectasis: 2}
+    symptoms: {shortness_of_breath: 0.5}
+    context: {}
+    confirm_tests: [Chest X-ray, bronchoscopy if needed]

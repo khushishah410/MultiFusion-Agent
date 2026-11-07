@@ -1,0 +1,8 @@
+# Optional: enables real chest X-ray inference (TorchXRayVision, Apache-2.0).
+# CPU-only wheels are smaller on Windows/Linux:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements-model.txt
+# Tested here with torch 2.14.1, torchvision 0.29.1, torchxrayvision 1.5.7.
+torch>=2.2
+torchvision>=0.17
+torchxrayvision>=1.3

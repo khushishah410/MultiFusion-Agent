@@ -1,0 +1,10 @@
+[project]
+name = "multifusionagent"
+version = "0.1.0"
+description = "Educational multimodal (symptom text + chest X-ray) research prototype. Not a medical device."
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]

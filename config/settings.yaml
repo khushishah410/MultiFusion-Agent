@@ -1,0 +1,31 @@
+# Default settings. Every key can be overridden with an environment variable
+# named MULTIFUSION_<KEY IN UPPER CASE>, e.g. MULTIFUSION_MAX_UPLOAD_MB=5.
+# Relative paths are resolved against the repository root.
+
+data_root: data/raw
+manifest_dir: data/manifests
+# Leave empty to use the dataset activated with `dataset_manager activate`,
+# falling back to the synthetic demo manifest.
+manifest_path: ""
+evaluation_dir: reports/evaluation
+retrieval_index: indexes/lexical_index.json
+knowledge_dir: data/knowledge
+datasets_config: config/datasets.yaml
+symptom_lexicon: config/symptom_lexicon.yaml
+diagnosis_rules: config/diagnosis_rules.yaml
+
+# Image model
+model_backend: torchxrayvision
+model_weights: densenet121-res224-all
+model_path: models/torchxrayvision
+max_upload_mb: 10
+min_image_side: 64
+max_image_side: 10000
+
+# Downloads larger than this need explicit confirmation (--yes / UI checkbox)
+large_download_mb: 200
+
+api_url: http://127.0.0.1:8000
+log_level: INFO
+# Uploaded images are processed in memory and never written to disk unless true
+retain_uploads: false

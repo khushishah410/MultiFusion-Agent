@@ -1,0 +1,22 @@
+# IU X-Ray MeSH major heading (text before the first "/") -> TorchXRayVision label.
+# Headings were taken from the published MeSH vocabulary used in Open-i reports;
+# after `prepare`, compare with label_counts in GET /dataset/summary and edit.
+# Unmapped headings are ignored by evaluation and by fusion comparisons.
+target: torchxrayvision
+map:
+  Cardiomegaly: Cardiomegaly
+  Pulmonary Atelectasis: Atelectasis
+  Atelectases: Atelectasis
+  Pleural Effusion: Effusion
+  Pulmonary Edema: Edema
+  Pulmonary Emphysema: Emphysema
+  Pneumothorax: Pneumothorax
+  Pneumonia: Pneumonia
+  Consolidation: Consolidation
+  Infiltrate: Infiltration
+  Opacity: Lung Opacity
+  Nodule: Nodule
+  Mass: Mass
+  Pulmonary Fibrosis: Fibrosis
+  Hernia, Hiatal: Hernia
+  Fractures, Bone: Fracture

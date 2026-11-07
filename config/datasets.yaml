@@ -1,0 +1,166 @@
+# Dataset registry. Sources and access terms were researched on 2026-10-27;
+# DATASET_GUIDE.md lists what was verified and how. Re-check terms before use.
+# Sizes marked "documented" come from the cited source, not from a local download.
+#
+# download.strategy:
+#   http   - files are fetched automatically (automated_download_allowed: true)
+#   manual - the user obtains the files under the provider's terms and imports them
+#   local  - generated on this machine (synthetic demo)
+
+datasets:
+  iu_xray:
+    display_name: Indiana University Chest X-ray Collection (IU X-Ray / OpenI)
+    official_source: https://openi.nlm.nih.gov/faq.php
+    license: >-
+      Distributed by the U.S. National Library of Medicine through Open-i. Third-party listings of the
+      archives state CC BY-NC-ND 4.0. Confirm the current terms on the Open-i FAQ before use; do not
+      redistribute.
+    citation: >-
+      Demner-Fushman D, et al. Preparing a collection of radiology examinations for distribution and
+      retrieval. J Am Med Inform Assoc. 2016;23(2):304-310.
+    modalities: [chest_xray_png, radiology_report_xml, mesh_terms]
+    automated_download_allowed: true
+    download:
+      strategy: http
+      files:
+        - name: NLMCXR_reports.tgz
+          url: https://openi.nlm.nih.gov/imgs/collections/NLMCXR_reports.tgz
+          # web seeds listed in the Academic Torrents metadata for this archive, tried in order
+          mirrors:
+            - https://archive.org/download/NLMCXR/NLMCXR/NLMCXR_reports.tgz
+            - https://academictorrents.cloud.seedboxes.cc/share/NLMCXR_reports.tgz
+            - http://host1.academictorrents.com/share/NLMCXR_reports.tgz
+          size_bytes: 1112632      # exact, from the torrent metadata
+          documented_size_mb: 1.1
+          metadata_only: true
+          sha256: null             # no official checksum is published
+          torrent: null            # the copy supplied was damaged; size check only
+          extract: true
+        - name: NLMCXR_png.tgz
+          url: https://openi.nlm.nih.gov/imgs/collections/NLMCXR_png.tgz
+          mirrors:
+            - https://archive.org/download/NLMCXR/NLMCXR/NLMCXR_png.tgz
+            - https://academictorrents.cloud.seedboxes.cc/share/NLMCXR_png.tgz
+            - http://host1.academictorrents.com/share/NLMCXR_png.tgz
+            - http://academictorrents1.cfhcable.net/NLMCXR_png.tgz
+          size_bytes: 1360814128   # exact, from the torrent metadata
+          documented_size_mb: 1360
+          metadata_only: false
+          sha256: null
+          # Academic Torrents infohash 5a3a439df24931f410fac269b87b050203d9467d (verified on load)
+          torrent: config/torrents/NLMCXR_png.tgz.torrent
+          torrent_infohash: 5a3a439df24931f410fac269b87b050203d9467d
+          extract: true
+      size_provenance: Exact byte sizes from the Academic Torrents .torrent metadata (archives created 2018-11-22).
+    documented_counts: "7,470 images from 3,955 reports (Babar et al., 2021, PMC8629217)"
+    manifest_builder: iu_xray_xml
+    expected_files: ["ecgen-radiology/*.xml", "*.png"]
+    metadata_fields: [INDICATION, COMPARISON, FINDINGS, IMPRESSION, MeSH major, MeSH minor, parentImage]
+    label_source: MeSH major terms assigned to each report (weak labels)
+    patient_grouping: none published; the report id (CXR<n>) is used as the grouping key
+
+  nih_cxr14:
+    display_name: NIH ChestX-ray14 (ChestX-ray8)
+    official_source: https://nihcc.app.box.com/v/ChestXray-NIHCC
+    license: >-
+      No use restrictions on the images per the NIH Clinical Center; users must link to the NIH download
+      site, cite Wang et al. CVPR 2017, and acknowledge the NIH Clinical Center.
+    citation: Wang X, et al. ChestX-ray8. IEEE CVPR 2017.
+    modalities: [chest_xray_png, text_mined_labels, patient_metadata]
+    automated_download_allowed: false
+    download:
+      strategy: manual
+      instructions: >-
+        Download Data_Entry_2017.csv (or Data_Entry_2017_v2020.csv) and one or more images_XXX.tar.gz
+        archives from the NIH Box folder. Box share links are not a stable programmatic API, so this
+        integration imports files you place locally. Extract the archives into the dataset folder.
+    documented_counts: "ChestX-ray8 paper: 108,948 frontal images, 32,717 patients, 8 labels; the expanded ChestX-ray14 release adds images and 14 labels (check the README in the NIH Box folder)"
+    manifest_builder: nih_csv
+    expected_files: ["Data_Entry_2017*.csv", "**/*.png"]
+    label_source: labels mined from radiology reports with NLP (Wang et al.); weak labels
+    patient_grouping: Patient ID
+
+  chexpert:
+    display_name: CheXpert
+    official_source: https://aimi.stanford.edu/datasets/chexpert-chest-x-rays
+    license: Stanford AIMI research use agreement; registration required; non-commercial research.
+    citation: Irvin J, et al. CheXpert. AAAI 2019.
+    modalities: [chest_xray_jpg, labeler_labels_with_uncertainty]
+    automated_download_allowed: false
+    download:
+      strategy: manual
+      instructions: >-
+        Register and accept the agreement on the Stanford AIMI site, download the archive you are
+        authorised to use (the downsampled 'small' version is easiest), extract it, then run
+        `prepare` pointing --source-dir at the folder containing train.csv / valid.csv.
+    documented_counts: "224,316 radiographs of 65,240 patients (Stanford AIMI)"
+    manifest_builder: chexpert_csv
+    expected_files: ["train.csv", "valid.csv"]
+    label_source: CheXpert labeler; 1 positive, 0 negative, -1 uncertain, blank not mentioned
+    patient_grouping: patient id parsed from the image path (patientNNNNN)
+
+  mimic_cxr_jpg:
+    display_name: MIMIC-CXR-JPG v2.1.0
+    official_source: https://physionet.org/content/mimic-cxr-jpg/2.1.0/
+    license: PhysioNet Credentialed Health Data License 1.5.0 + DUA; CITI "Data or Specimens Only Research" training.
+    citation: Johnson AEW, et al. MIMIC-CXR-JPG. PhysioNet.
+    modalities: [chest_xray_jpg, chexpert_labels, negbio_labels, official_splits]
+    automated_download_allowed: false
+    download:
+      strategy: manual
+      instructions: >-
+        Requires a credentialed PhysioNet account and a signed DUA. Download with your own credentials
+        (never store them in this project) and point --source-dir at the folder holding
+        mimic-cxr-2.0.0-chexpert.csv.gz, mimic-cxr-2.0.0-split.csv.gz and files/.
+    documented_counts: "377,110 JPG images; 227,827 labelled studies (PhysioNet)"
+    manifest_builder: mimic_csv
+    expected_files: ["mimic-cxr-2.0.0-chexpert.csv.gz", "mimic-cxr-2.0.0-split.csv.gz", "files/"]
+    label_source: CheXpert labeler on reports (1, 0, -1 uncertain, blank)
+    patient_grouping: subject_id
+
+  vindr_cxr:
+    display_name: VinDr-CXR v1.0.0
+    official_source: https://physionet.org/content/vindr-cxr/1.0.0/
+    license: PhysioNet Credentialed Health Data License 1.5.0 + DUA.
+    citation: Nguyen HQ, et al. VinDr-CXR. Scientific Data 2022.
+    modalities: [chest_xray_dicom, radiologist_bounding_boxes, image_labels]
+    automated_download_allowed: false
+    download:
+      strategy: manual
+      instructions: >-
+        Credentialed PhysioNet access. Images are DICOM; this project does not include a DICOM
+        converter. Convert to PNG with your own tooling, keep the image_id as the file stem, and
+        import with the generic CSV/JSONL builder.
+    documented_counts: "18,000 images (15,000 train / 3,000 test), 28 labels (PhysioNet)"
+    manifest_builder: generic
+    label_source: radiologist annotations (3 readers train, 5-reader consensus test)
+    patient_grouping: not provided
+
+  padchest:
+    display_name: PadChest (BIMCV)
+    official_source: https://bimcv.cipf.es/?p=4923
+    license: BIMCV research use agreement (https://bimcv.cipf.es/?p=4923); research only, no redistribution.
+    citation: Bustos A, et al. PadChest. Medical Image Analysis 2020 (arXiv:1901.07441).
+    modalities: [chest_xray_png, report_derived_labels_spanish]
+    automated_download_allowed: false
+    download:
+      strategy: manual
+      instructions: >-
+        Accept the research use agreement with BIMCV and download through their service. Import the
+        CSV and images with the generic builder after mapping columns.
+    documented_counts: "over 160,000 images of about 67,000 patients (Bustos et al.)"
+    manifest_builder: generic
+    label_source: 27% of reports labelled manually by physicians, the rest by an RNN labeller (Bustos et al.)
+    patient_grouping: PatientID
+
+  synthetic_demo:
+    display_name: Synthetic demo fixtures (not medical data)
+    official_source: generated locally by scripts/generate_demo_data.py
+    license: Generated by this project; contains no patient data.
+    modalities: [placeholder_png, placeholder_text]
+    automated_download_allowed: false
+    download:
+      strategy: local
+      instructions: python -m scripts.generate_demo_data
+    manifest_builder: generic
+    label_source: none (synthetic records carry no labels)

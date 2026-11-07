@@ -1,0 +1,49 @@
+:root {
+  --mfa-navy: #0f2742;
+  --mfa-blue: #1f5fa8;
+  --mfa-teal: #138a8a;
+  --mfa-ink: #1c2733;
+  --mfa-muted: #5b6b7c;
+  --mfa-line: #d8e1ea;
+  --mfa-bg-soft: #f4f7fa;
+  --mfa-amber: #b7791f;
+  --mfa-red: #b42318;
+}
+.block-container { padding-top: 1.6rem; max-width: 1280px; }
+h1, h2, h3 { color: var(--mfa-navy); letter-spacing: -0.01em; }
+section[data-testid="stSidebar"] { background: var(--mfa-navy); }
+section[data-testid="stSidebar"] * { color: #e8eef5 !important; }
+section[data-testid="stSidebar"] .stRadio label p { font-size: 0.98rem; }
+
+.mfa-card {
+  border: 1px solid var(--mfa-line); border-radius: 10px; padding: 14px 16px;
+  background: #fff; height: 100%;
+}
+.mfa-card .mfa-label { color: var(--mfa-muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: .05em; }
+.mfa-card .mfa-value { color: var(--mfa-navy); font-size: 1.55rem; font-weight: 650; margin-top: 2px; }
+.mfa-card .mfa-sub { color: var(--mfa-muted); font-size: 0.82rem; margin-top: 2px; }
+
+.mfa-chip {
+  display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 0.74rem; font-weight: 600;
+  border: 1px solid currentColor; margin-right: 6px; white-space: nowrap;
+}
+.chip-diagnosis { color: #0f2742; background: #e8f0f8; }
+.chip-observation { color: var(--mfa-blue); }
+.chip-model_output { color: var(--mfa-teal); }
+.chip-reference { color: #5a4fcf; }
+.chip-disagreement { color: var(--mfa-amber); }
+.chip-missing { color: var(--mfa-muted); }
+.chip-safety { color: var(--mfa-red); }
+.chip-ok { color: #1e7b4f; } .chip-warn { color: var(--mfa-amber); } .chip-bad { color: var(--mfa-red); }
+
+.mfa-item { border-left: 3px solid var(--mfa-line); padding: 6px 0 6px 12px; margin: 6px 0; }
+.mfa-item .ev { color: var(--mfa-muted); font-size: 0.78rem; }
+.mfa-banner {
+  background: var(--mfa-bg-soft); border: 1px solid var(--mfa-line); border-radius: 8px;
+  padding: 8px 12px; color: var(--mfa-ink); font-size: 0.86rem;
+}
+mark.sym { background: #d6ecf8; padding: 0 2px; border-radius: 3px; }
+mark.neg { background: #eceff3; text-decoration: line-through; padding: 0 2px; border-radius: 3px; }
+mark.unk { background: #fdf0d5; padding: 0 2px; border-radius: 3px; }
+mark.dur { background: #d9f2ee; padding: 0 2px; border-radius: 3px; }
+section[data-testid="stSidebar"] code { background: rgba(255,255,255,0.12) !important; }

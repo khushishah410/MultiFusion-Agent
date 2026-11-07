@@ -1,0 +1,14 @@
+# MIMIC-CXR-JPG (CheXpert labeler) label -> TorchXRayVision label.
+target: torchxrayvision
+map:
+  Enlarged Cardiomediastinum: Enlarged Cardiomediastinum
+  Cardiomegaly: Cardiomegaly
+  Lung Opacity: Lung Opacity
+  Lung Lesion: Lung Lesion
+  Edema: Edema
+  Consolidation: Consolidation
+  Pneumonia: Pneumonia
+  Atelectasis: Atelectasis
+  Pneumothorax: Pneumothorax
+  Pleural Effusion: Effusion
+  Fracture: Fracture
